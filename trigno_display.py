@@ -49,7 +49,6 @@ class FastDisplay(QtGui.QWidget):
     def setup_dragonfly(self, server):
         subscriptions = [MT_EXIT, \
                          rc.MT_PING, \
-                         rc.MT_DAQ_DATA, \
                          rc.MT_SAMPLE_GENERATED, \
                          rc.MT_TRIGNO_DATA]
         self.mod = Dragonfly_Module(0, 0)
@@ -71,13 +70,13 @@ class FastDisplay(QtGui.QWidget):
         #cols, rows = 2, 4
         cols = 2
         rows = self.config.nchan / cols
-        self.npt = 1000
+        self.npt = 2000
         self.axes = np.empty((rows, cols), dtype=object)
         for i in xrange(rows):
             for j in xrange(cols):
                 ax = win.addPlot(title="EMG%d" % (i * cols + j))
                 #ax.disableAutoRange(axis=None)
-                self.axes[i,j] = ax.plot(np.random.normal(1,1, size=1000))
+                self.axes[i,j] = ax.plot(np.random.normal(1,1, size=432*3))
             win.nextRow()
             
         self.old_data = np.zeros((self.config.nchan, self.npt))
@@ -116,9 +115,9 @@ class FastDisplay(QtGui.QWidget):
                 buf = np.random.normal(1, 1, size=(432,))
             else:
                 return False
-            # Slide 27 points
+                
             self.new_data[:,:-self.config.perchan] = self.old_data[:,self.config.perchan:]
-            print (***)
+            print (buf[0:2])
             for i in xrange(self.config.nchan):
                 #if i == 0:
                 #    print mdf.buffer[perchan * i:perchan * (i + 1)].size
