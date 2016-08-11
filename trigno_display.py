@@ -80,8 +80,8 @@ class FastDisplay(QtGui.QWidget):
                 self.axes[i,j] = ax.plot(np.random.normal(1,1, size=1000))
             win.nextRow()
             
-        self.old_data = np.empty((self.config.nchan, self.npt))
-        self.new_data = np.empty((self.config.nchan, self.npt))
+        self.old_data = np.zeros((self.config.nchan, self.npt))
+        self.new_data = np.zeros((self.config.nchan, self.npt))
         
         timer = QtCore.QTimer(self)
         timer.connect(timer, QtCore.SIGNAL("timeout()"), self.timer_event)
@@ -113,12 +113,12 @@ class FastDisplay(QtGui.QWidget):
             elif msg_type == rc.MT_SAMPLE_GENERATED:
                 sys.stdout.write("#")
                 sys.stdout.flush()
-                buf = np.random.normal(1, 1, size=(160,))
+                buf = np.random.normal(1, 1, size=(432,))
             else:
                 return False
             # Slide 27 points
             self.new_data[:,:-self.config.perchan] = self.old_data[:,self.config.perchan:]
-            print (self.new_data)
+            print (***)
             for i in xrange(self.config.nchan):
                 #if i == 0:
                 #    print mdf.buffer[perchan * i:perchan * (i + 1)].size
